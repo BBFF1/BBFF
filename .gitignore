@@ -1,0 +1,15 @@
+# macOS
+.DS_Store
+
+# Office temp/lock files
+~$*
+
+# Internal working documents — not for the public site repo
+*.docx
+*.xlsx
+backup/
+"BBFF Logo .png"
+BBFF Logo .png
+
+# Local tooling
+.claude/
