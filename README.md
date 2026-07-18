@@ -26,7 +26,7 @@ python3 -m http.server 8090
 
 ## Custom domain (Wix)
 
-Domain: `brendenbutlerfamilyfoundation.com`, purchased through Wix and using Wix nameservers (`ns2.wixdns.net`, `ns3.wixdns.net`). DNS records are edited in the Wix dashboard under Domains, then Manage DNS Records.
+Domain: `brendenbutlerfamilyfoundation.com`, purchased through Wix and using Wix nameservers (`ns2.wixdns.net`, `ns3.wixdns.net`; not editable, and no change needed). DNS records are edited in the Wix dashboard under Domains, then Manage DNS Records. There are no MX records on the domain, so the cutover cannot affect email; the foundation uses Gmail.
 
 Current records (verified 2026-07-18), pointing at Wix hosting:
 
