@@ -26,20 +26,35 @@ python3 -m http.server 8090
 
 ## Custom domain (Wix)
 
-The foundation's domain is managed through Wix. To point it at GitHub Pages:
+Domain: `brendenbutlerfamilyfoundation.com`, purchased through Wix and using Wix nameservers (`ns2.wixdns.net`, `ns3.wixdns.net`). DNS records are edited in the Wix dashboard under Domains, then Manage DNS Records.
 
-1. In the Wix dashboard, open Domains, then Manage DNS Records for the domain.
-2. Replace the existing A records for the apex domain with GitHub Pages' four IPs:
-   - 185.199.108.153
-   - 185.199.109.153
-   - 185.199.110.153
-   - 185.199.111.153
-3. Add or update the `www` CNAME record to point to `bbff1.github.io`.
-4. In the GitHub repo, go to Settings, then Pages, and enter the custom domain. This creates a `CNAME` file in the repo.
-5. Wait for DNS to propagate (minutes to a few hours), then enable "Enforce HTTPS" in the Pages settings.
+Current records (verified 2026-07-18), pointing at Wix hosting:
 
-Domain: _to be filled in_
-DNS status: _to be filled in_
+| Type | Host | Value | TTL |
+|---|---|---|---|
+| A | apex | 185.230.63.171 | 1 hour |
+| A | apex | 185.230.63.186 | 1 hour |
+| A | apex | 185.230.63.107 | 1 hour |
+| CNAME | www | cdn1.wixdns.net | 1 hour |
+
+Target records for GitHub Pages:
+
+| Type | Host | Value | TTL |
+|---|---|---|---|
+| A | apex | 185.199.108.153 | 1 hour |
+| A | apex | 185.199.109.153 | 1 hour |
+| A | apex | 185.199.110.153 | 1 hour |
+| A | apex | 185.199.111.153 | 1 hour |
+| CNAME | www | bbff1.github.io | 1 hour |
+
+Cutover order matters. Do not change DNS until steps 1 and 2 are done, or the domain will serve errors:
+
+1. Enable GitHub Pages on this repo (Settings, then Pages: deploy from `main`, root). Requires admin on the repo.
+2. In the same Pages settings, set the custom domain to `brendenbutlerfamilyfoundation.com`. GitHub commits a `CNAME` file to the repo and provisions a certificate.
+3. In Wix, delete the three 185.230.63.x A records and add the four 185.199.108-111.153 A records. Edit the `www` CNAME value from `cdn1.wixdns.net` to `bbff1.github.io`.
+4. Wait for propagation (TTL is 1 hour, so typically under an hour or two), then turn on "Enforce HTTPS" in the Pages settings.
+
+The old Wix site stays intact in the Wix account; reverting DNS to the current records above rolls everything back.
 
 ## Donations (Stripe)
 
