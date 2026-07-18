@@ -228,6 +228,8 @@ nav.scrolled{background:rgba(16,31,70,.92);box-shadow:0 4px 40px rgba(0,0,0,.15)
 .freq-btn{flex:1;padding:13px;text-align:center;font-size:14px;font-weight:600;border-radius:12px;transition:all .3s var(--ease);color:var(--text-light)}
 .freq-btn.active{background:#fff;color:var(--charcoal);box-shadow:var(--sh-sm)}
 .freq-btn:not(.active):hover{color:var(--text-mid)}
+.freq-btn:disabled{opacity:.45;cursor:not-allowed}
+.checkout-note{font-size:12.5px;color:var(--text-faint);text-align:center;line-height:1.6;margin-bottom:14px}
 .freq-badge{display:inline-block;font-size:9px;font-weight:800;background:var(--green);color:#fff;padding:2px 7px;border-radius:5px;margin-left:6px;vertical-align:middle}
 .amount-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
 .amount-btn{padding:18px 8px;text-align:center;border:2px solid var(--border);border-radius:14px;background:#fff;transition:all .3s var(--ease)}
@@ -562,7 +564,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
         <div class="dc-body" id="donateForm">
           <div class="freq-toggle">
             <button class="freq-btn active" onclick="setFreq(this,'one-time')">One-Time</button>
-            <button class="freq-btn" onclick="setFreq(this,'monthly')">Monthly <span class="freq-badge">BEST</span></button>
+            <button class="freq-btn" disabled title="Monthly giving is coming soon">Monthly <span class="freq-badge">SOON</span></button>
           </div>
           <div class="amount-grid">
             <button class="amount-btn" onclick="selAmt(this,25)"><span class="amt">$25</span></button>
@@ -581,11 +583,8 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
               <button class="desig-btn" onclick="selDesig(this)">Adaptive Athletics</button>
             </div>
           </div>
-          <div class="form-row"><div class="form-f"><label>First Name</label><input type="text" placeholder="Jane"></div><div class="form-f"><label>Last Name</label><input type="text" placeholder="Doe"></div></div>
-          <div class="form-f"><label>Email</label><input type="email" placeholder="jane@example.com"></div>
-          <label class="honor-toggle"><input type="checkbox" id="honorTog" onchange="toggleHonor()"><span class="toggle-tr"></span><span>In honor or memory of someone</span></label>
-          <div class="honor-fields" id="honorFields"><div class="form-row"><div class="form-f"><label>Honoree Name</label><input type="text" placeholder="Name"></div><div class="form-f"><label>Gift Type</label><select><option>In Honor Of</option><option>In Memory Of</option></select></div></div></div>
           <button class="donate-submit" onclick="processDonation()">Donate $50.00 &rarr;</button>
+          <p class="checkout-note">You'll confirm your amount and enter your name, email, and payment details on Stripe's secure checkout page.</p>
           <div class="stripe-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Secured by <strong style="margin-left:2px">Stripe</strong> &middot; PCI-DSS Compliant</div>
         </div>
         <div class="donate-success" id="donateSuccess">
@@ -751,9 +750,10 @@ function selectAmount(a){selAmount=a;document.getElementById('customAmt').value=
 function clearAmts(){document.querySelectorAll('.amount-btn').forEach(b=>b.classList.remove('selected'));const v=document.getElementById('customAmt').value;if(v)selAmount=parseFloat(v);updBtn()}
 function setFreq(b,f){freq=f;document.querySelectorAll('.freq-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');updBtn()}
 function selDesig(b){document.querySelectorAll('.desig-btn').forEach(x=>x.classList.remove('selected'));b.classList.add('selected')}
-function toggleHonor(){document.getElementById('honorFields').classList.toggle('show',document.getElementById('honorTog').checked)}
 function updBtn(){const c=document.getElementById('customAmt').value;const a=c?parseFloat(c):selAmount;const s=freq==='monthly'?'/mo':'';const b=document.querySelector('.donate-submit');if(b)b.textContent=`Donate $${a.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}${s} \u2192`}
-function processDonation(){document.getElementById('donateForm').style.display='none';document.getElementById('donateSuccess').classList.add('show')}
+const STRIPE_LINK_ONETIME='https://buy.stripe.com/28E5kDf6S1lXbY0dJCfEk00';
+const STRIPE_LINK_MONTHLY='';
+function processDonation(){const link=freq==='monthly'?STRIPE_LINK_MONTHLY:STRIPE_LINK_ONETIME;if(!link)return;const d=document.querySelector('.desig-btn.selected');const slug=d?d.textContent.trim().toLowerCase().replace(/[^a-z0-9]+/g,'-'):'greatest-need';window.location.href=link+'?client_reference_id='+slug}
 const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')}),{threshold:.08,rootMargin:'0px 0px -32px 0px'});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 const progObs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){document.getElementById('progressBar').style.width='70%';progObs.unobserve(x.target)}})},{threshold:.3});

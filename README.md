@@ -58,9 +58,15 @@ The old Wix site stays intact in the Wix account; reverting DNS to the current r
 
 ## Donations (Stripe)
 
-The donate form on `index.html` is currently a front-end mock. It does not process payments yet. The plan is to wire the amount buttons to Stripe Payment Links (one link per tier, plus recurring monthly variants). Stripe offers discounted nonprofit pricing; apply with the foundation's EIN.
+The donate button on `index.html` routes to a Stripe Payment Link (one-time gifts). The selected designation (Greatest Need, Gift Drive, Mental Health, Adaptive Athletics) is passed to Stripe as `client_reference_id`, and `thanks.html` is the post-payment landing page: set the link's after-payment behavior in Stripe to redirect to `https://brendenbutlerfamilyfoundation.com/thanks.html`.
 
-Status: not yet configured.
+Live link (one-time): https://buy.stripe.com/28E5kDf6S1lXbY0dJCfEk00
+
+Still to do:
+- Recreate or edit the link with "customer chooses price" so donors can give any amount (it currently charges a fixed $25)
+- Create a monthly recurring Payment Link and paste it into `STRIPE_LINK_MONTHLY` in `index.html`, then re-enable the Monthly toggle
+- Finish Stripe account verification (dashboard shows "review in progress")
+- Apply for nonprofit pricing: email nonprofit@stripe.com with the EIN and IRS determination letter
 
 ## Contributing
 
