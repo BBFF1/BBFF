@@ -513,7 +513,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
       <div class="volunteer-card reveal rv1" data-chapter="frisco">
         <div class="vol-avatar tier-gold">ER</div>
         <h4>Eshan Rudravaram</h4>
-        <div class="vol-school">Reedy HS, Frisco &middot; Senior</div>
+        <div class="vol-school">Reedy HS, Frisco &middot; Junior</div>
         <div class="vol-role">Chapter President</div>
         <div class="vol-stats">
           <div class="vol-stat"><div class="v">120</div><div class="l">Hours</div></div>
@@ -821,6 +821,7 @@ function filterRoster(chapter,btn){
   document.querySelectorAll('.volunteer-card').forEach(card=>{
     if(chapter==='all'||card.dataset.chapter===chapter){
       card.style.display='';
+      card.classList.add('visible');
     }else{
       card.style.display='none';
     }
