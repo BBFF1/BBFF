@@ -44,7 +44,7 @@
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:80px}
-body{font-family:'Poppins',sans-serif;color:var(--text);background:var(--ivory);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{font-family:'Poppins',sans-serif;color:var(--text);background:var(--ivory);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:clip}
 h1,h2,h3,h4{font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;line-height:1.15;color:var(--charcoal)}
 img{max-width:100%;height:auto;display:block}
 a{text-decoration:none;color:inherit}
@@ -504,9 +504,6 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
     </div>
     <div class="roster-filters">
       <button class="filter-btn active" onclick="filterRoster('all',this)">All Chapters</button>
-      <button class="filter-btn" onclick="filterRoster('frisco',this)">Frisco</button>
-      <button class="filter-btn" onclick="filterRoster('dallas',this)">Dallas</button>
-      <button class="filter-btn" onclick="filterRoster('plano',this)">Plano</button>
     </div>
     <div class="roster-grid" id="rosterGrid">
       <!-- Frisco Chapter -->
